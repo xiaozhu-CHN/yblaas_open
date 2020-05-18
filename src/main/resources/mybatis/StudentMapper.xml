@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yiban.yblaas.mapper.StudentMapper">
+    <select id="selectByStudentId" parameterType="string" resultType="int">
+        SELECT count(*) FROM student WHERE student = #{studentId}
+    </select>
+    <select id="selectStudentName" parameterType="string" resultType="string">
+        SELECT `name` FROM student WHERE student = #{studentId}
+    </select>
+    <insert id="insertStudent" parameterType="com.yiban.yblaas.domain.Student">
+        insert into student (student, numberid, eclassid, `name`, sex, examine)
+		values (#{student}, #{numberId}, #{eclassId}, #{name}, #{sex} , 3)
+    </insert>
+    <select id="selectStudentExamine" parameterType="string" resultType="string">
+        SELECT examine FROM student WHERE student = #{studentId}
+    </select>
+    <select id="selectStudent" resultMap="resultStudent" parameterType="string">
+        SELECT * FROM student WHERE student = #{studentId}
+    </select>
+    <update id="updateStudent" parameterType="com.yiban.yblaas.domain.Student">
+        UPDATE student SET `name` = #{name}, numberid = #{numberId}, eclassid = #{eclassId},
+            studenttell = #{studentTell}, parenttell = #{parentTell}, parenname = #{parenName},
+            address = #{address}, ems = #{ems}, sex = #{sex}, examine = #{examine}, city = #{city}
+        WHERE student = #{student}
+    </update>
+    <select id="selectStudentQq" parameterType="string" resultType="string">
+        SELECT studentqq FROM student WHERE student = #{studentId}
+    </select>
+    <select id="selectStudentEmail" parameterType="string" resultType="string">
+        SELECT studentemail FROM student WHERE student = #{studentId}
+    </select>
+    <update id="updateStudentQq">
+        UPDATE student SET studentqq = #{studentQq} WHERE student = #{studentId}
+    </update>
+    <update id="updateStudentEmail">
+        UPDATE student SET studentemail = #{studentEmail} WHERE student = #{studentId}
+    </update>
+    <select id="selectLeaveTeacherStudentByLeaveId" parameterType="long" resultMap="resultLeaveTeacherStudent">
+        SELECT studentemail,studenttell,parenttell,parenname,address,ems,studentQq,city
+        FROM student WHERE student.student =
+        (SELECT student FROM `leave` WHERE `leave`.id = #{LeaveId})
+    </select>
+    <select id="selectStudentNumByEclassId" parameterType="int" resultType="int">
+        SELECT count(*) FROM student WHERE eclassid = #{eclassId} AND examine = '2'
+    </select>
+    <select id="selectStudentListDsh" parameterType="string" resultMap="resultStudent">
+        SELECT student.*,college.`name` AS collegename,eclass.`name` AS eclassname
+        FROM student
+        LEFT JOIN eclass ON student.eclassid = eclass.eclassid
+        LEFT JOIN college ON eclass.collegeid = college.collegeid
+        WHERE eclass.teacher = #{teacherId} AND student.examine = '1'
+    </select>
+    <update id="updateStudentExamine">
+        UPDATE student SET examine = #{examine} WHERE student = #{studentId}
+    </update>
+    <select id="selectStudentTeacherId" parameterType="string" resultType="string">
+        SELECT eclass.teacher
+        FROM student
+        LEFT JOIN eclass ON student.eclassid = eclass.eclassid
+        WHERE student.student = #{studentId}
+    </select>
+    <select id="selectTeacherStudentList" resultMap="resultTeacherStudent" resultType="int">
+        SELECT student,numberid,`name`,sex FROM student
+        WHERE eclassid = #{eclassId} AND examine = '2'
+    </select>
+    <update id="updateStudentEclassNull" parameterType="int">
+        UPDATE student SET eclassid = null, examine = '3' WHERE examine in ('3','1') AND eclassid = #{eclassId}
+    </update>
+    <select id="selectStudentListDshNum" resultType="int">
+        SELECT count(*)
+        FROM student
+        LEFT JOIN eclass ON student.eclassid = eclass.eclassid
+        WHERE eclass.teacher = #{teacherId} AND student.examine = '1'
+    </select>
+    <select id="selectStudentByEclassId" resultMap="resultStudent">
+        SELECT * FROM student WHERE eclassid = #{eclassId}
+    </select>
+    <resultMap id="resultStudent" type="com.yiban.yblaas.domain.Student">
+        <id property="student" column="student" javaType="java.lang.String" />
+        <result property="numberId" column="numberid" javaType="java.lang.String" />
+        <result property="eclassId" column="eclassid" javaType="int" />
+        <result property="studentEmail" column="studentemail" javaType="java.lang.String" />
+        <result property="name" column="name" javaType="java.lang.String" />
+        <result property="studentTell" column="studenttell" javaType="java.lang.String" />
+        <result property="parentTell" column="parenttell" javaType="java.lang.String" />
+        <result property="parenName" column="parenname" javaType="java.lang.String" />
+        <result property="address" column="address" javaType="java.lang.String" />
+        <result property="ems" column="ems" javaType="java.lang.String" />
+        <result property="sex" column="sex" javaType="java.lang.String" />
+        <result property="studentQq" column="studentqq" javaType="java.lang.String" />
+        <result property="examine" column="examine" javaType="java.lang.String" />
+        <result property="city" column="city" javaType="java.lang.String" />
+        <result property="collegeName" column="collegename" javaType="java.lang.String" />
+        <result property="eclassName" column="eclassname" javaType="java.lang.String" />
+    </resultMap>
+    <resultMap id="resultLeaveTeacherStudent" type="com.yiban.yblaas.domain.LeaveTeacherStudent">
+        <result property="studentEmail" column="studentemail" javaType="java.lang.String" />
+        <result property="studentTell" column="studenttell" javaType="java.lang.String" />
+        <result property="parentTell" column="parenttell" javaType="java.lang.String" />
+        <result property="parenName" column="parenname" javaType="java.lang.String" />
+        <result property="address" column="address" javaType="java.lang.String" />
+        <result property="ems" column="ems" javaType="java.lang.String" />
+        <result property="studentQq" column="studentqq" javaType="java.lang.String" />
+        <result property="city" column="city" javaType="java.lang.String" />
+    </resultMap>
+    <resultMap id="resultTeacherStudent" type="com.yiban.yblaas.domain.TeacherStudent">
+        <id property="student" column="student" javaType="java.lang.String" />
+        <result property="numberId" column="numberid" javaType="java.lang.String" />
+        <result property="name" column="name" javaType="java.lang.String" />
+        <result property="sex" column="sex" javaType="java.lang.String" />
+    </resultMap>
+</mapper>

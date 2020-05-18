@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yiban.yblaas.mapper.VerificationMapper">
+    <insert id="insertVerification">
+        INSERT INTO verification(userid, verification, time, type, field) values (#{userId}, #{verification}, now(), #{type}, #{field})
+    </insert>
+    <select id="selectVerification" resultMap="resultVerification">
+        SELECT * FROM verification WHERE userid = #{userId} AND type = #{type} ORDER BY id DESC LIMIT 1
+    </select>
+    <resultMap id="resultVerification" type="com.yiban.yblaas.domain.Verification">
+        <id property="id" column="id" javaType="int" />
+        <result property="userId" column="userid" javaType="java.lang.String" />
+        <result property="verification" column="verification" javaType="java.lang.String" />
+        <result property="time" column="time" javaType="java.util.Date" />
+        <result property="type" column="type" javaType="java.lang.String" />
+        <result property="field" column="field" javaType="java.lang.String" />
+    </resultMap>
+</mapper>

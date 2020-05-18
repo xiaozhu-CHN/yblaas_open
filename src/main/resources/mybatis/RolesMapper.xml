@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yiban.yblaas.mapper.RolesMapper">
+    <select id="selectRoleName" parameterType="string" resultType="string">
+		SELECT rolename FROM roles WHERE userid = #{userId}
+	</select>
+	<select id="selectRolesAll" resultMap="resultRoles">
+		SELECT * FROM roles
+		<where>
+			<if test="userId != null">
+				userid like concat('%', #{userId}, '%')
+			</if>
+		</where>
+		<if test=" 0 == column ">
+			ORDER BY id
+		</if>
+		<if test=" 1 == column ">
+			ORDER BY userid
+		</if>
+		<if test=" 2 == column ">
+			ORDER BY rolename
+		</if>
+		${dir}
+	</select>
+	<select id="selectRolesAllNum" resultType="long">
+		SELECT count(*) FROM roles
+	</select>
+	<update id="updateRoleName" >
+		UPDATE roles SET rolename = #{roleName} WHERE id = #{id}
+	</update>
+	<insert id="insertRoles">
+		INSERT INTO roles(userid, rolename) VALUES (#{userId}, #{roleName})
+	</insert>
+	<select id="selectRoles" parameterType="string" resultMap="resultRoles">
+		SELECT * FROM roles where userid = #{userId} LIMIT 1
+	</select>
+	<resultMap type="com.yiban.yblaas.domain.Roles" id="resultRoles">
+		<id property="id" column="id" javaType="int" />
+		<result property="userId" column="userid" javaType="java.lang.String" />
+		<result property="roleName" column="rolename" javaType="java.lang.String" />
+	</resultMap>
+</mapper>

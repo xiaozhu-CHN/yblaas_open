@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yiban.yblaas.mapper.LeaveMapper">
+    <select id="selectLeaveByStudentId" parameterType="string" resultMap="resultLeaveStudent">
+        SELECT id,timestart,timeend,timechange,`day`,state FROM `leave`
+        <where>
+            <if test="1 == number">
+                student = #{studentId}
+            </if>
+            <if test="2 == number">
+                student = #{studentId} AND state in ('0','2','4')
+            </if>
+            <if test="3 == number">
+                student = #{studentId} AND state = '6'
+            </if>
+        </where>
+        ORDER BY id DESC
+    </select>
+    <insert id="insertLeave" parameterType="com.yiban.yblaas.domain.NewLeave" useGeneratedKeys="true"  keyProperty="id"  keyColumn="id">
+        INSERT INTO `leave`(student, timestart, timeend, timechange, `day`, whereabouts, cause, state)
+        values (#{student}, #{timeStart}, #{timeEnd}, now(), #{day}, #{whereabouts}, #{cause}, '0')
+    </insert>
+    <select id="selectLeaveStudentQueryById" parameterType="long" resultMap="resultLeaveStudentQuery">
+        SELECT
+            `leave`.id,
+            student.`name` as studentname,
+            college.`name` as collegename,
+            eclass.`name` as eclassname,
+            student.sex,
+            student.numberid,
+            `leave`.timestart,
+            `leave`.timeend,
+            `leave`.timechange,
+            `leave`.`day`,
+            `leave`.whereabouts,
+            `leave`.cause,
+            a.name as fdyname,
+            `leave`.fdytime,
+            b.name as xyldname,
+            `leave`.xyldtime,
+            c.name as xgcname,
+            `leave`.xgctime,
+            d.name as xjname,
+            `leave`.xjtime,
+            `leave`.state
+        FROM
+            `leave` LEFT JOIN student ON `leave`.student = student.student
+            LEFT JOIN eclass ON student.eclassid	= eclass.eclassid
+            LEFT JOIN college ON eclass.collegeid = college.collegeid
+            LEFT JOIN teacher a ON `leave`.fdy = a.teacher
+            LEFT JOIN teacher b ON `leave`.xyld = b.teacher
+            LEFT JOIN teacher c ON `leave`.xgc = c.teacher
+            LEFT JOIN teacher d ON `leave`.xj = d.teacher
+        WHERE `leave`.id = #{leaveId}
+    </select>
+    <select id="selectLeaveTeacherQueryByNumberId" parameterType="string" resultMap="resultLeaveTeacherQuery">
+        SELECT
+            `leave`.id,
+            student.`name` as studentname,
+            college.`name` as collegename,
+            eclass.`name` as eclassname,
+            student.sex,
+            student.numberid,
+            `leave`.timestart,
+            `leave`.timeend,
+            `leave`.`day`,
+            `leave`.whereabouts,
+            `leave`.cause,
+            `leave`.state
+        FROM
+            `leave` LEFT JOIN student ON `leave`.student = student.student
+            LEFT JOIN eclass ON student.eclassid	= eclass.eclassid
+            LEFT JOIN college ON eclass.collegeid = college.collegeid
+        WHERE student.numberid = #{numberId}  order by `leave`.id desc LIMIT 1
+    </select>
+    <select id="selectLeaveTeacherStepById" parameterType="long" resultMap="resultLeaveTeacherStep">
+        SELECT
+            `leave`.timechange,
+            a.name as fdyname,
+            `leave`.fdytime,
+            b.name as xyldname,
+            `leave`.xyldtime,
+            c.name as xgcname,
+            `leave`.xgctime,
+            d.name as xjname,
+            `leave`.xjtime,
+            `leave`.state
+        FROM
+            `leave` LEFT JOIN teacher a ON `leave`.fdy = a.teacher
+            LEFT JOIN teacher b ON `leave`.xyld = b.teacher
+            LEFT JOIN teacher c ON `leave`.xgc = c.teacher
+            LEFT JOIN teacher d ON `leave`.xj = d.teacher
+        WHERE `leave`.id = #{leaveId}
+    </select>
+    <select id="selectLeaveTeacherQueryListByDsh" resultMap="resultLeaveTeacherQuery">
+        SELECT
+            `leave`.id,
+            student.`name` as studentname,
+            college.`name` as collegename,
+            eclass.`name` as eclassname,
+            student.sex,
+            student.numberid,
+            `leave`.timestart,
+            `leave`.timeend,
+            `leave`.`day`,
+            `leave`.whereabouts,
+            `leave`.cause,
+            `leave`.state
+        FROM
+            `leave` LEFT JOIN student ON `leave`.student = student.student
+            LEFT JOIN eclass ON student.eclassid	= eclass.eclassid
+            LEFT JOIN college ON eclass.collegeid = college.collegeid
+        <where>
+            <if test='"fdy" == roles'>
+                eclass.teacher = #{teacherId} AND `leave`.state = '0'
+            </if>
+            <if test='"xyld" == roles'>
+                college.collegeid = #{collegeId} AND `leave`.state = '2'
+            </if>
+            <if test='"xgc" == roles'>
+                `leave`.state = '4'
+            </if>
+        </where>
+    </select>
+    <update id="updateLeaveState">
+        UPDATE `leave` SET state = #{state}
+        <if test="roles != null">
+            <if test='"fdy" == roles'>
+                ,fdy = #{teacherId}, fdytime = now()
+            </if>
+            <if test='"xyld" == roles'>
+                ,xyld = #{teacherId}, xyldtime = now()
+            </if>
+            <if test='"xgc" == roles'>
+                ,xgc = #{teacherId}, xgctime = now()
+            </if>
+        </if>
+        WHERE id = #{leaveId}
+    </update>
+    <select id="selectLeaveTeacherQueryById" parameterType="long" resultMap="resultLeaveTeacherQuery">
+        SELECT
+            `leave`.id,
+            student.`name` as studentname,
+            college.`name` as collegename,
+            eclass.`name` as eclassname,
+            student.sex,
+            student.numberid,
+            `leave`.timestart,
+            `leave`.timeend,
+            `leave`.`day`,
+            `leave`.whereabouts,
+            `leave`.cause,
+            `leave`.state
+        FROM
+            `leave` LEFT JOIN student ON `leave`.student = student.student
+            LEFT JOIN eclass ON student.eclassid	= eclass.eclassid
+            LEFT JOIN college ON eclass.collegeid = college.collegeid
+        WHERE id = #{leaveId}
+    </select>
+    <select id="selectLeaveTeacherQueryListByDxj" resultMap="resultLeaveTeacherQuery">
+        SELECT
+        `leave`.id,
+        student.`name` as studentname,
+        college.`name` as collegename,
+        eclass.`name` as eclassname,
+        student.sex,
+        student.numberid,
+        `leave`.timestart,
+        `leave`.timeend,
+        `leave`.`day`,
+        `leave`.whereabouts,
+        `leave`.cause,
+        `leave`.state
+        FROM
+        `leave` LEFT JOIN student ON `leave`.student = student.student
+        LEFT JOIN eclass ON student.eclassid	= eclass.eclassid
+        LEFT JOIN college ON eclass.collegeid = college.collegeid
+        <where>
+            <if test='"fdy" == roles'>
+                eclass.teacher = #{teacherId} AND `leave`.day &lt;= #{dayXyld}
+            </if>
+            <if test='"xyld" == roles'>
+                college.collegeid = #{collegeId} AND `leave`.day &lt;= #{dayXgc} AND `leave`.day &gt; #{dayXyld}
+            </if>
+            <if test='"xgc" == roles'>
+                `leave`.day &gt; #{dayXgc}
+            </if>
+            AND `leave`.state = '6'
+        </where>
+    </select>
+    <update id="updateLeaveStateXj">
+        UPDATE `leave` SET state = '7', xj = #{teacherId}, xjtime = now()
+        WHERE id = #{leaveId}
+    </update>
+    <select id="selectLeaveTeacherQueryListAll" resultMap="resultLeaveTeacherQuery">
+        SELECT
+        `leave`.id,
+        student.`name` as studentname,
+        college.`name` as collegename,
+        eclass.`name` as eclassname,
+        student.sex,
+        student.numberid,
+        `leave`.timestart,
+        `leave`.timeend,
+        `leave`.`day`,
+        `leave`.whereabouts,
+        `leave`.cause,
+        `leave`.state
+        FROM
+        `leave` LEFT JOIN student ON `leave`.student = student.student
+        LEFT JOIN eclass ON student.eclassid	= eclass.eclassid
+        LEFT JOIN college ON eclass.collegeid = college.collegeid
+        <where>
+            <if test='"fdy" == roles'>
+                eclass.teacher = #{teacherId}
+            </if>
+            <if test='"xyld" == roles'>
+                college.collegeid = #{collegeId}
+            </if>
+            <if test='"xgc" != roles and 0 != type'>
+                AND
+            </if>
+            <if test='1 == type'>
+                student.numberid like concat('%', #{seachString}, '%')
+            </if>
+            <if test='2 == type'>
+                `leave`.id = #{seacherLong}
+            </if>
+            <if test='3 == type'>
+                student.`name` like concat('%', #{seachString}, '%')
+            </if>
+        </where>
+        <if test=" 0 == column ">
+            ORDER BY `leave`.id
+        </if>
+        <if test=" 1 == column ">
+            ORDER BY student.`name`
+        </if>
+        <if test=" 2 == column ">
+            ORDER BY college.`name`
+        </if>
+        <if test=" 3 == column ">
+            ORDER BY eclass.`name`
+        </if>
+        <if test=" 4 == column ">
+            ORDER BY student.sex
+        </if>
+        <if test=" 5 == column ">
+            ORDER BY student.numberid
+        </if>
+        <if test=" 6 == column ">
+            ORDER BY `leave`.timestart
+        </if>
+        <if test=" 7 == column ">
+            ORDER BY `leave`.timeend
+        </if>
+        <if test=" 8 == column ">
+            ORDER BY `leave`.`day`
+        </if>
+        <if test=" 11 == column ">
+            ORDER BY `leave`.state
+        </if>
+         ${dir}
+    </select>
+    <select id="selectLeaveTeacherQueryListAllNum" resultType="Long">
+        SELECT count(*)
+        FROM
+        `leave` LEFT JOIN student ON `leave`.student = student.student
+        LEFT JOIN eclass ON student.eclassid	= eclass.eclassid
+        LEFT JOIN college ON eclass.collegeid = college.collegeid
+        <where>
+            <if test='"fdy" == roles'>
+                eclass.teacher = #{teacherId}
+            </if>
+            <if test='"xyld" == roles'>
+                college.collegeid = #{collegeId}
+            </if>
+        </where>
+    </select>
+    <select id="selectLeaveNum" resultType="long">
+        SELECT count(*) FROM `leave`
+        <where>
+            state in ('6','7')
+            <if test='2 == type'>
+                AND to_days(timechange) = to_days(now())
+            </if>
+            <if test='3 == type'>
+                AND TO_DAYS(NOW( )) - TO_DAYS(timechange) = 1
+            </if>
+            <if test='4 == type'>
+                AND YEARWEEK(date_format(timechange,'%Y-%m-%d'),1) = YEARWEEK(now(),1)
+            </if>
+            <if test='5 == type'>
+                AND DATE_FORMAT(timechange, '%Y%m' ) = DATE_FORMAT( CURDATE( ) , '%Y%m' )
+            </if>
+        </where>
+    </select>
+    <select id="selectLeaveNowNum" resultType="long" parameterType="int">
+        SELECT count(*) FROM `leave`
+        <where>
+            state in ('6','7')
+            <if test='2 == type'>
+                AND TO_DAYS(NOW()) - TO_DAYS(timestart) &gt;= 0 AND TO_DAYS(NOW()) - TO_DAYS(timeend) &lt;= 0
+            </if>
+            <if test='3 == type'>
+                AND TO_DAYS(NOW()) - TO_DAYS(timestart) &gt;= 1 AND TO_DAYS(NOW()) - TO_DAYS(timeend) &lt;= 1
+            </if>
+        </where>
+    </select>
+    <select id="selectLeaveTeacherQueryListByDshNum" resultType="int">
+        SELECT count(*)
+        FROM
+        `leave` LEFT JOIN student ON `leave`.student = student.student
+        LEFT JOIN eclass ON student.eclassid	= eclass.eclassid
+        LEFT JOIN college ON eclass.collegeid = college.collegeid
+        <where>
+            <if test='"fdy" == roles'>
+                eclass.teacher = #{teacherId} AND `leave`.state = '0'
+            </if>
+            <if test='"xyld" == roles'>
+                college.collegeid = #{collegeId} AND `leave`.state = '2'
+            </if>
+            <if test='"xgc" == roles'>
+                `leave`.state = '4'
+            </if>
+        </where>
+    </select>
+    <select id="selectLeaveByStudentIdNum" resultType="int">
+        SELECT count(*) FROM `leave` WHERE student = #{studentId} AND id= #{leaveId} AND state in ('0','2','4')
+    </select>
+    <select id="selectLeaveStudentIdById" resultType="string" parameterType="long">
+        SELECT student FROM `leave` WHERE id = #{leaveId}
+    </select>
+    <resultMap id="resultLeaveStudent" type="com.yiban.yblaas.domain.LeaveStudent">
+        <id property="id" column="id" javaType="Long" />
+        <result property="timeStart" column="timestart" javaType="java.util.Date" />
+        <result property="timeEnd" column="timeend" javaType="java.util.Date" />
+        <result property="timeChange" column="timechange" javaType="java.util.Date" />
+        <result property="day" column="day" javaType="int" />
+        <result property="state" column="state" javaType="java.lang.String" />
+    </resultMap>
+    <resultMap id="resultLeaveStudentQuery" type="com.yiban.yblaas.domain.LeaveStudentQuery">
+        <id property="id" column="id" javaType="Long" />
+        <result property="studentName" column="studentname" javaType="java.lang.String" />
+        <result property="collegeName" column="collegename" javaType="java.lang.String" />
+        <result property="eclassName" column="eclassname" javaType="java.lang.String" />
+        <result property="sex" column="sex" javaType="java.lang.String" />
+        <result property="numberId" column="numberid" javaType="java.lang.String" />
+        <result property="timeStart" column="timestart" javaType="java.util.Date" />
+        <result property="timeEnd" column="timeend" javaType="java.util.Date" />
+        <result property="timeChange" column="timechange" javaType="java.util.Date" />
+        <result property="day" column="day" javaType="int" />
+        <result property="whereabouts" column="whereabouts" javaType="java.lang.String" />
+        <result property="cause" column="cause" javaType="java.lang.String" />
+        <result property="fdyName" column="fdyname" javaType="java.lang.String" />
+        <result property="fdyTime" column="fdytime" javaType="java.util.Date" />
+        <result property="xyldName" column="xyldname" javaType="java.lang.String" />
+        <result property="xyldTime" column="xyldtime" javaType="java.util.Date" />
+        <result property="xgcName" column="xgcname" javaType="java.lang.String" />
+        <result property="xgcTime" column="xgctime" javaType="java.util.Date" />
+        <result property="xjName" column="xjname" javaType="java.lang.String" />
+        <result property="xjtTime" column="xjttime" javaType="java.util.Date" />
+        <result property="state" column="state" javaType="java.lang.String" />
+    </resultMap>
+    <resultMap id="resultLeaveTeacherQuery" type="com.yiban.yblaas.domain.LeaveTeacherQuery">
+        <id property="id" column="id" javaType="Long" />
+        <result property="studentName" column="studentname" javaType="java.lang.String" />
+        <result property="collegeName" column="collegename" javaType="java.lang.String" />
+        <result property="eclassName" column="eclassname" javaType="java.lang.String" />
+        <result property="sex" column="sex" javaType="java.lang.String" />
+        <result property="numberId" column="numberid" javaType="java.lang.String" />
+        <result property="timeStart" column="timestart" javaType="java.util.Date" />
+        <result property="timeEnd" column="timeend" javaType="java.util.Date" />
+        <result property="day" column="day" javaType="int" />
+        <result property="whereabouts" column="whereabouts" javaType="java.lang.String" />
+        <result property="cause" column="cause" javaType="java.lang.String" />
+        <result property="state" column="state" javaType="java.lang.String" />
+    </resultMap>
+    <resultMap id="resultLeaveTeacherStep" type="com.yiban.yblaas.domain.LeaveTeacherStep">
+        <result property="timeChange" column="timechange" javaType="java.util.Date" />
+        <result property="fdyName" column="fdyname" javaType="java.lang.String" />
+        <result property="fdyTime" column="fdytime" javaType="java.util.Date" />
+        <result property="xyldName" column="xyldname" javaType="java.lang.String" />
+        <result property="xyldTime" column="xyldtime" javaType="java.util.Date" />
+        <result property="xgcName" column="xgcname" javaType="java.lang.String" />
+        <result property="xgcTime" column="xgctime" javaType="java.util.Date" />
+        <result property="xjName" column="xjname" javaType="java.lang.String" />
+        <result property="xjtTime" column="xjttime" javaType="java.util.Date" />
+        <result property="state" column="state" javaType="java.lang.String" />
+    </resultMap>
+</mapper>

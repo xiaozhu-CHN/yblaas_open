@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yiban.yblaas.mapper.CollegeMapper">
+    <select id="selectCollegeId" resultType="int" parameterType="string">
+        SELECT collegeid FROM college WHERE `name` = #{name} LIMIT 1
+    </select>
+    <select id="selectCollegeAll" resultMap="resultPermissions">
+        SELECT * FROM college
+    </select>
+    <select id="selectCollegeName" resultType="string" parameterType="int">
+        SELECT `name` FROM college WHERE collegeid = #{collegeId}
+    </select>
+    <insert id="insertCollege" parameterType="string">
+        INSERT INTO college(`name`) values (#{collegeName})
+    </insert>
+    <update id="updateCollege">
+        UPDATE college SET `name` = #{collegeName} WHERE collegeid = #{collegeId}
+    </update>
+    <delete id="deleteCollege" parameterType="int">
+        DELETE FROM college WHERE collegeid = #{collegeId}
+    </delete>
+    <resultMap type="com.yiban.yblaas.domain.College" id="resultPermissions">
+        <id property="collegeId" column="collegeid" javaType="int" />
+        <result property="name" column="name" javaType="java.lang.String" />
+    </resultMap>
+</mapper>

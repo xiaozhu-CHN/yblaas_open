@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yiban.yblaas.mapper.TeacherMapper">
+    <select id="selectByTeacherId" parameterType="string" resultType="int">
+		SELECT COUNT(*) FROM teacher WHERE teacher = #{teacherId}
+	</select>
+	<select id="selectTeacherName" parameterType="string" resultType="string">
+		SELECT `name` FROM teacher WHERE teacher = #{teacherId}
+	</select>
+	<insert id="insertTeacher" parameterType="com.yiban.yblaas.domain.Teacher">
+		INSERT INTO teacher(teacher, name, collegeid) VALUES (#{teacher}, #{name}, #{collegeId})
+	</insert>
+	<select id="selectTeacher" parameterType="string" resultMap="resultTeacher">
+		SELECT * FROM teacher WHERE teacher = #{teacherId}
+	</select>
+	<update id="updateTeacherQq">
+		UPDATE teacher SET teacherQq = #{teacherQq} WHERE teacher = #{teacherId}
+	</update>
+	<update id="updateTeacherEmail">
+		UPDATE teacher SET teacheremail = #{teacherEmail} WHERE teacher = #{teacherId}
+	</update>
+	<update id="updateTeacher" parameterType="com.yiban.yblaas.domain.Teacher">
+		UPDATE teacher SET `name` = #{name}, teachertell = #{teacherTell}, collegeid = #{collegeId} WHERE teacher = #{teacher}
+	</update>
+	<select id="selectTeacherByCollegeIdFdy" resultMap="resultTeacher" parameterType="int">
+		SELECT teacher.* FROM teacher
+		LEFT JOIN roles ON teacher.teacher = roles.userid
+		WHERE teacher.collegeid = #{collegeId} AND roles.rolename in ('teacher','fdy')
+	</select>
+	<select id="selectTeacherByCollegeIdXyld" parameterType="int" resultMap="resultTeacher">
+		SELECT teacher.*,roles.rolename FROM teacher
+		LEFT JOIN roles ON teacher.teacher = roles.userid
+		WHERE teacher.collegeid = #{collegeId} AND roles.rolename in ('teacher','xyld')
+	</select>
+	<select id="selectTeacherByXgc" resultMap="resultTeacher">
+		SELECT teacher.*,roles.rolename FROM teacher
+		LEFT JOIN roles ON teacher.teacher = roles.userid
+		WHERE roles.rolename in ('teacher','xgc')
+	</select>
+	<select id="selectTeacherByCollegeIdRoleXyld" resultMap="resultTeacher" parameterType="int">
+		SELECT teacher.*,roles.rolename FROM teacher
+		LEFT JOIN roles ON teacher.teacher = roles.userid
+		WHERE teacher.collegeid = #{collegeId} AND roles.rolename ='xyld'
+	</select>
+	<select id="selectTeacherByRoleXgc" resultMap="resultTeacher">
+		SELECT teacher.*,roles.rolename FROM teacher
+		LEFT JOIN roles ON teacher.teacher = roles.userid
+		WHERE roles.rolename ='xgc'
+	</select>
+	<resultMap id="resultTeacher" type="com.yiban.yblaas.domain.Teacher">
+		<id property="teacher" column="teacher" javaType="java.lang.String" />
+		<result property="name" column="name" javaType="java.lang.String" />
+		<result property="teacherTell" column="teachertell" javaType="java.lang.String" />
+		<result property="teacherEmail" column="teacheremail" javaType="java.lang.String" />
+		<result property="collegeId" column="collegeid" javaType="int" />
+		<result property="teacherQq" column="teacherqq" javaType="java.lang.String" />
+		<result property="role" column="rolename" javaType="java.lang.String" />
+	</resultMap>
+</mapper>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yiban.yblaas.mapper.EclassMapper">
+    <select id="selectEclassId" resultType="int" parameterType="string" >
+        SELECT eclassid FROM eclass WHERE name = #{name} LIMIT 1
+    </select>
+    <select id="selectEclassByCollegeId" resultMap="resultEclass" parameterType="int">
+        SELECT * FROM eclass WHERE collegeid = #{collegeId}
+    </select>
+    <select id="selectEclass" parameterType="int" resultMap="resultEclass">
+        SELECT * FROM eclass WHERE eclassid = #{eclassId}
+    </select>
+    <select id="selectEclassTeacherByTeacherId" parameterType="string" resultMap="resultEclassTeacher">
+        SELECT eclass.eclassid,eclass.name AS eclassname,college.collegeid,college.name AS collegename,teacher.teacher AS teacherId,teacher.name AS teacherName
+        FROM eclass
+        LEFT JOIN college on eclass.collegeid = college.collegeid
+        LEFT JOIN teacher on eclass.teacher = teacher.teacher
+        WHERE eclass.teacher = #{teacherId}
+    </select>
+    <select id="selectEclassTeacherByCollegeId" parameterType="int" resultMap="resultEclassTeacher">
+        SELECT eclass.eclassid,eclass.name AS eclassname,college.collegeid,college.name AS collegename,teacher.teacher AS teacherId,teacher.name AS teacherName
+        FROM eclass
+        LEFT JOIN college on eclass.collegeid = college.collegeid
+        LEFT JOIN teacher on eclass.teacher = teacher.teacher
+        WHERE eclass.collegeid = #{collegeId}
+    </select>
+    <update id="updateEclassTeacherId">
+        UPDATE eclass SET
+        <if test="teacherId == null">
+            teacher = null
+        </if>
+        <if test="teacherId != null">
+            teacher = #{teacherId}
+        </if>
+        WHERE eclassid = #{eclassId}
+    </update>
+    <select id="selectEclassByTeacherIdNum" resultType="int" parameterType="string">
+        SELECT count(*) FROM eclass WHERE teacher = #{teacherId}
+    </select>
+    <insert id="insertEclass">
+        INSERT INTO eclass(collegeid, name) values (#{collegeId}, #{eclassName})
+    </insert>
+    <update id="updateEclassName">
+        UPDATE eclass SET `name` = #{eclassName} WHERE eclassid = #{eclassId}
+    </update>
+    <delete id="deleteEclass" parameterType="int">
+        DELETE FROM eclass WHERE eclassid = #{eclassId}
+    </delete>
+    <resultMap id="resultEclass" type="com.yiban.yblaas.domain.Eclass">
+        <id property="eclassId" column="eclassid" javaType="int" />
+        <result property="collegeId" column="collegeid" javaType="int" />
+        <result property="name" column="name" javaType="java.lang.String" />
+        <result property="teacher" column="teacher" javaType="java.lang.String" />
+    </resultMap>
+    <resultMap id="resultEclassTeacher" type="com.yiban.yblaas.domain.EclassTeacher">
+        <id property="eclassId" column="eclassid" javaType="int" />
+        <result property="collegeId" column="collegeid" javaType="int" />
+        <result property="eclassName" column="eclassname" javaType="java.lang.String" />
+        <result property="collegeName" column="collegename" javaType="java.lang.String" />
+        <result property="teacherId" column="teacherId" javaType="java.lang.String" />
+        <result property="teacherName" column="teachername" javaType="java.lang.String" />
+    </resultMap>
+</mapper>

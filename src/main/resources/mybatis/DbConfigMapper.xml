@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yiban.yblaas.mapper.DbConfigMapper">
+    <select id="selectValue" parameterType="string" resultType="string">
+		SELECT cvalue FROM dbconfig WHERE ckey = #{ckey}
+	</select>
+    <select id="selectKey" parameterType="string" resultType="int">
+		SELECT count(*) FROM dbconfig WHERE ckey = #{ckey}
+	</select>
+	<update id="updateValue" parameterType="string">
+		UPDATE dbconfig SET cvalue = #{cvalue} WHERE ckey = #{ckey}
+	</update>
+</mapper>

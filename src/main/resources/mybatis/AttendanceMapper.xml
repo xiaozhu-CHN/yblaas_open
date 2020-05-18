@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yiban.yblaas.mapper.AttendanceMapper">
+    <insert id="insertAttendance" parameterType="com.yiban.yblaas.domain.Attendance" useGeneratedKeys="true"  keyProperty="id"  keyColumn="id">
+        INSERT INTO attendance(teacher, eclassid, timestart, timeend, timechange, `name`, longitude, latitude, beiz, state)
+        VALUES(#{teacher}, #{eclassId}, #{timeStart}, #{timeEnd}, now(), #{name}, #{longitude}, #{latitude}, #{beiz}, '1')
+    </insert>
+    <select id="selectAttendanceListByTeacher" resultMap="resultAttendance">
+        SELECT attendance.*,
+        college.`name` as collegename,
+        eclass.`name` as eclassname,
+        teacher.`name` as teachername
+        FROM attendance LEFT JOIN eclass ON attendance.eclassid = eclass.eclassid
+        LEFT JOIN college ON eclass.collegeid = college.collegeid
+        LEFT JOIN teacher ON attendance.teacher = teacher.teacher
+        <where>
+            attendance.teacher = #{teacherId} AND attendance.state != '3'
+            <if test='1 == type'>
+                AND attendance.id = #{seacherLong}
+            </if>
+            <if test='2 == type'>
+                AND eclass.`name` like concat('%', #{seachString}, '%')
+            </if>
+            <if test='3 == type'>
+                AND attendance.`name` like concat('%', #{seachString}, '%')
+            </if>
+        </where>
+        <if test=" 0 == column ">
+            ORDER BY attendance.id
+        </if>
+        <if test=" 1 == column ">
+            ORDER BY collegename
+        </if>
+        <if test=" 2 == column ">
+            ORDER BY eclassname
+        </if>
+        <if test=" 3 == column ">
+            ORDER BY attendance.timestart
+        </if>
+        <if test=" 4 == column ">
+            ORDER BY attendance.timeend
+        </if>
+        <if test=" 5 == column ">
+            ORDER BY attendance.timechange
+        </if>
+        ${dir}
+    </select>
+    <select id="selectAttendanceListByTeacherNum" parameterType="string" resultType="long">
+        SELECT count(*) FROM attendance where teacher = #{teacherId} AND attendance.state != '3'
+    </select>
+    <select id="selectAttendanceByAttendanceId" parameterType="long" resultMap="resultAttendance">
+        SELECT attendance.*,
+        college.`name` as collegename,
+        eclass.`name` as eclassname,
+        teacher.`name` as teachername
+        FROM attendance LEFT JOIN eclass ON attendance.eclassid = eclass.eclassid
+        LEFT JOIN college ON eclass.collegeid = college.collegeid
+        LEFT JOIN teacher ON attendance.teacher = teacher.teacher
+        WHERE attendance.id = #{attendanceId} AND attendance.state != '3'
+    </select>
+    <select id="selectAttendanceListDkqByTeacher" parameterType="string" resultMap="resultAttendance">
+        SELECT attendance.*,
+        college.`name` as collegename,
+        eclass.`name` as eclassname,
+        teacher.`name` as teachername
+        FROM attendance LEFT JOIN eclass ON attendance.eclassid = eclass.eclassid
+        LEFT JOIN college ON eclass.collegeid = college.collegeid
+        LEFT JOIN teacher ON attendance.teacher = teacher.teacher
+        WHERE attendance.teacher = #{teacherId} AND attendance.timeend > now() AND attendance.state != '3'
+    </select>
+    <update id="updateAttendanceStop">
+        UPDATE attendance SET state = #{state} WHERE id = #{attendanceId}
+    </update>
+    <select id="selectAttendanceStudentDkq" resultMap="resultAttendanceStudent">
+        SELECT attendance.id, attendance.timestart, attendance.timeend, attendance.timechange, attendance.`name`
+        FROM attendance LEFT JOIN (SELECT * FROM attendance_info WHERE attendance_info.student = #{studentId}) a
+        ON attendance.id = a.id
+        WHERE attendance.eclassid = #{eclassId} AND a.type IS NULL AND attendance.timeend > NOW() AND attendance.state = '1'
+        ORDER BY attendance.id DESC
+    </select>
+    <select id="selectAttendanceStudentAll" parameterType="int" resultMap="resultAttendanceStudent">
+        SELECT attendance.id, attendance.timestart, attendance.timeend, attendance.timechange, attendance.`name`
+        FROM attendance WHERE attendance.eclassid = #{eclassId} AND attendance.state != '3'
+        ORDER BY attendance.id DESC
+    </select>
+    <select id="selectAttendanceNum" resultType="long" parameterType="int">
+        SELECT count(*) FROM attendance
+        <if test='1 != type'>
+            <where>
+                <if test='2 == type'>
+                    to_days(timechange) = to_days(now())
+                </if>
+                <if test='3 == type'>
+                    TO_DAYS(NOW()) - TO_DAYS(timechange) = 1
+                </if>
+                <if test='4 == type'>
+                    YEARWEEK(date_format(timechange,'%Y-%m-%d'),1) = YEARWEEK(now(),1)
+                </if>
+                <if test='5 == type'>
+                    DATE_FORMAT(timechange, '%Y%m' ) = DATE_FORMAT( CURDATE( ) , '%Y%m' )
+                </if>
+            </where>
+        </if>
+    </select>
+    <resultMap type="com.yiban.yblaas.domain.Attendance" id="resultAttendance">
+        <id property="id" column="id" javaType="Long" />
+        <result property="teacher" column="teacher" javaType="java.lang.String" />
+        <result property="eclassId" column="eclassid" javaType="int" />
+        <result property="timeStart" column="timestart" javaType="java.util.Date" />
+        <result property="timeEnd" column="timeend" javaType="java.util.Date" />
+        <result property="timeChange" column="timechange" javaType="java.util.Date" />
+        <result property="name" column="name" javaType="java.lang.String" />
+        <result property="longitude" column="longitude" javaType="java.lang.String" />
+        <result property="latitude" column="latitude" javaType="java.lang.String" />
+        <result property="beiz" column="beiz" javaType="java.lang.String" />
+        <result property="state" column="state" javaType="java.lang.String" />
+        <result property="collegeName" column="collegename" javaType="java.lang.String" />
+        <result property="eclassName" column="eclassname" javaType="java.lang.String" />
+        <result property="teacherName" column="teachername" javaType="java.lang.String" />
+    </resultMap>
+    <resultMap id="resultAttendanceStudent" type="com.yiban.yblaas.domain.AttendanceStudent">
+        <id property="id" column="id" javaType="Long" />
+        <result property="timeStart" column="timestart" javaType="java.util.Date" />
+        <result property="timeEnd" column="timeend" javaType="java.util.Date" />
+        <result property="timeChange" column="timechange" javaType="java.util.Date" />
+        <result property="name" column="name" javaType="java.lang.String" />
+    </resultMap>
+</mapper>

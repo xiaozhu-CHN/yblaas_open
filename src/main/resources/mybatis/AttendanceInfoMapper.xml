@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yiban.yblaas.mapper.AttendanceInfoMapper">
+    <select id="selectTeacherAttendanceById" parameterType="long" resultMap="resultTeacherAttendance">
+        SELECT a.student,a.`name`,a.numberid,b.time,b.type FROM
+        (SELECT * FROM student WHERE student.examine = '2') a
+        LEFT JOIN (SELECT * FROM attendance_info WHERE attendance_info.id = #{attendanceId}) b
+        ON a.student = b.student
+        WHERE a.eclassid = (SELECT eclassid FROM attendance WHERE id = #{attendanceId})
+    </select>
+    <select id="selectAttendanceInfoNumByAttendanceId" parameterType="long" resultType="int">
+        SELECT count(*) FROM attendance_info WHERE id = #{attendanceId}
+    </select>
+    <insert id="insertAttendanceInfoTeacher">
+        INSERT INTO attendance_info(id, student, time, type) VALUES (#{attendanceId}, #{studentId}, now(), '2')
+    </insert>
+    <delete id="deleteAttendanceInfoTeacher">
+        DELETE FROM attendance_info WHERE id = #{attendanceId} AND student = #{studentId}
+    </delete>
+    <select id="selectAttendanceInfoTime" resultType="date">
+        SELECT time FROM attendance_info WHERE id = #{attendanceId} AND student = #{studentId}
+    </select>
+    <select id="selectAttendanceInfoMac" resultType="int">
+        SELECT count(*) FROM attendance_info WHERE id = #{attendanceId} AND mac = #{mac}
+    </select>
+    <insert id="insertAttendanceInfoStudent" parameterType="com.yiban.yblaas.domain.AttendanceInfo">
+        INSERT INTO attendance_info(id, student, time, longitude, latitude, mac, type) VALUES (#{id}, #{student}, now(), #{longitude}, #{latitude}, #{mac}, #{type})
+    </insert>
+    <select id="selectAttendanceInfoNum" resultType="int" parameterType="int">
+        SELECT count(*) FROM attendance_info
+        <if test='1 != type'>
+            <where>
+                <if test='2 == type'>
+                    to_days(time) = to_days(now())
+                </if>
+                <if test='3 == type'>
+                    TO_DAYS(NOW()) - TO_DAYS(time) = 1
+                </if>
+                <if test='4 == type'>
+                    YEARWEEK(date_format(time,'%Y-%m-%d'),1) = YEARWEEK(now(),1)
+                </if>
+                <if test='5 == type'>
+                    DATE_FORMAT(time, '%Y%m' ) = DATE_FORMAT( CURDATE( ) , '%Y%m' )
+                </if>
+            </where>
+        </if>
+    </select>
+    <resultMap type="com.yiban.yblaas.domain.TeacherAttendance" id="resultTeacherAttendance">
+        <result property="student" column="student" javaType="java.lang.String" />
+        <result property="name" column="name" javaType="java.lang.String" />
+        <result property="numberId" column="numberid" javaType="java.lang.String" />
+        <result property="time" column="time" javaType="java.util.Date" />
+        <result property="type" column="type" javaType="java.lang.String" />
+    </resultMap>
+</mapper>
