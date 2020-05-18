@@ -6,11 +6,11 @@
 
 易班请假与考勤系统是高校的一个请假与考勤的系统，提高纸质化请假与考勤的效率；鉴于易班目前已经入驻许多高校，而且具有实名制，所以接入易班单点登陆；参考自己的毕设重新改造的开源版本，去掉了QQ提醒和手机验证码验证啥的，增加自定义邮件。
 
-#软件手册
+# 软件手册
 部署需要安装mysql、jdk、Redis
 地址：待补充
 
-#特点
+# 特点
 
 1. 系统请假三级审批，辅导员->学院领导->学工处，管理员可以在后台自定义达到多少天进行二级和三级审批。
 2. 考勤通过易班定位的经纬度进行考勤，管理员可以在后台自定义考勤的精度，即范围多少米。
@@ -19,7 +19,7 @@
 5. 考勤与手机唯一标识绑定，单次考勤单手机只能考勤一次；老师可以修改考勤记录。
 5. 接入易班，实现易班单点登陆。
 
-#演示图
+# 演示图
 ![管理员登录界面](https://images.weserv.nl/?url=https://img03.sogoucdn.com/app/a/100520146/7dfc63bb5ea596aba505512046557e48)
 ![管理员首页](https://images.weserv.nl/?url=https://img03.sogoucdn.com/app/a/100520146/65706fac22a15e31642b3194fdf3b4c0)
 ![学生首页](https://images.weserv.nl/?url=https://img02.sogoucdn.com/app/a/100520146/9fdbc6a092476bc979463f67c30d6cc7)
@@ -29,13 +29,13 @@
 ![老师考勤](https://images.weserv.nl/?url=https://img02.sogoucdn.com/app/a/100520146/933f8b48f1cfce9aab817a9f4acb7feb)
 ![邮件测试](https://images.weserv.nl/?url=https://img02.sogoucdn.com/app/a/100520146/9e7cf1f34ffc3b30b53685dd92cdabfb)
 
-#前端框架
+# 前端框架
 
 1. 学生端：light7、JQuery WeUI
 2. 老师端：H-ui的H-ui.adminV3.1
 3. 管理员端：H-ui的H-ui.adminV3.1
 
-#系统架构
+# 系统架构
 1. Spring Boot 2.2.4
 2. SSM
 3. Maven
