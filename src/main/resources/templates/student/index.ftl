@@ -262,7 +262,7 @@
                         $("#leave_xj").append("<span id=\"navbar_xj\">("+data["recordsTotal"]+")</span>");
                     }
                     var strHtml='';
-                    if(data["data"].length !== 0){
+                    if(data["data"] !=null && data["data"].length !== 0){
                         for (var i=0;i<data["data"].length;i++){
                             var d1 = new Date(data["data"][i].timeStart);
                             var d2 = new Date(data["data"][i].timeEnd);

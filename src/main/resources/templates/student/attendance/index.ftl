@@ -193,7 +193,7 @@
                         $("#attendance_all").append("<span id=\"navbar_all\">("+data["recordsTotal"]+")</span>");
                     }
                     var strHtml='';
-                    if(data["data"].length !== 0){
+                    if(data["data"] !=null && data["data"].length !== 0){
                         for (var i=0;i<data["data"].length;i++){
                             strHtml+= '<div class="card"><div class="card-header">考勤编号：'+data["data"][i].id+'</div>';
                             strHtml+= '<div class="card-content"><div class="card-content-inner">标题： '+data["data"][i].name+'<br/>';
