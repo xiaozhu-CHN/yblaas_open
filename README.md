@@ -20,14 +20,14 @@
 5. 接入易班，实现易班单点登陆。
 
 # 演示图
-![管理员登录界面](https://images.weserv.nl/?url=https://img03.sogoucdn.com/app/a/100520146/7dfc63bb5ea596aba505512046557e48)
-![管理员首页](https://images.weserv.nl/?url=https://img03.sogoucdn.com/app/a/100520146/65706fac22a15e31642b3194fdf3b4c0)
-![学生首页](https://images.weserv.nl/?url=https://img02.sogoucdn.com/app/a/100520146/9fdbc6a092476bc979463f67c30d6cc7)
-![学生考勤](https://images.weserv.nl/?url=https://img03.sogoucdn.com/app/a/100520146/4aa8b606346c452785d308f54d773bb5)
-![老师首页](https://images.weserv.nl/?url=https://img03.sogoucdn.com/app/a/100520146/cb8d5ad42e68eae73cf8e0c8dfd5a5f7)
-![老师假条](https://images.weserv.nl/?url=https://img04.sogoucdn.com/app/a/100520146/ce00bf37693f1810d54371d0f586ab92)
-![老师考勤](https://images.weserv.nl/?url=https://img02.sogoucdn.com/app/a/100520146/933f8b48f1cfce9aab817a9f4acb7feb)
-![邮件测试](https://images.weserv.nl/?url=https://img02.sogoucdn.com/app/a/100520146/9e7cf1f34ffc3b30b53685dd92cdabfb)
+![管理员登录界面](https://photo.benzhu.xyz/images/2020/07/09/QrGyxmqpWr4lMZct.png)
+![管理员首页](https://photo.benzhu.xyz/images/2020/07/09/yYd5WlWjzs5Wz1yh.png)
+![学生首页](https://photo.benzhu.xyz/images/2020/07/09/guilnx5CyWwWKkzp.png)
+![学生考勤](https://photo.benzhu.xyz/images/2020/07/09/lM6vVbBAU8SQfZ5f.png)
+![老师首页](https://photo.benzhu.xyz/images/2020/07/09/OWJjoySlQL7pMqoH.png)
+![老师假条](https://photo.benzhu.xyz/images/2020/07/09/2mKjoHoITTQ8wswV.png)
+![老师考勤](https://photo.benzhu.xyz/images/2020/07/09/l2BmVLMAOCifVjSR.png)
+![邮件测试](https://photo.benzhu.xyz/images/2020/07/09/KoF34MMffydMRwAR.png)
 
 # 前端框架
 
