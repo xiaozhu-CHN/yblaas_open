@@ -360,6 +360,7 @@ public class TeacherController {
     @RequestMapping("attendance_add")
     public String attendance_add(ModelMap map){
         map.put("accuracy",this.teacherService.getDbConfigAttendanceAccuracy());
+        map.put("gaodeKey", this.publicService.getGaodeKey());
         return "teacher/attendance/attendance_add";
     }
 
@@ -426,6 +427,7 @@ public class TeacherController {
     public String attendance_info(Long attendanceId, ModelMap map){
         map.put("attendanceInfoData", this.teacherService.getAttendanceInfoData(attendanceId));
         map.put("attendanceId", attendanceId);
+        map.put("gaodeKey", this.publicService.getGaodeKey());
         return "teacher/attendance/attendance_info";
     }
 

@@ -402,7 +402,8 @@ public class StudentController {
     @RequestMapping("attendance_info_location")
     public String attendance_info_location(Long attendanceId, ModelMap map){
         map.put("attendance", this.studentService.getAttendance(attendanceId));
-        map.put("accuracy",this.studentService.getDbConfigAttendanceAccuracy());
+        map.put("accuracy", this.studentService.getDbConfigAttendanceAccuracy());
+        map.put("gaodeKey", this.publicService.getGaodeKey());
         return "student/attendance/attendance_info_location";
     }
 

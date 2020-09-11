@@ -45,7 +45,7 @@
 <!--/_footer 作为公共模版分离出去-->
 
 <script type="text/javascript" src="/hui/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=c7aef2c066b99bd01c7c024d85671b9b"></script>
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=${gaodeKey!}"></script>
 <script src="https://webapi.amap.com/ui/1.0/main.js"></script>
 <script type="text/javascript">
 

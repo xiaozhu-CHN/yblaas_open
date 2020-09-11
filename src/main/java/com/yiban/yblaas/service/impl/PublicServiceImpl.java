@@ -483,6 +483,28 @@ public class PublicServiceImpl implements PublicService {
         }
     }
 
+    /**
+     * 功能描述:
+     * (查询用户自定义高德API的key)
+     *
+     * @return : java.lang.String
+     * @author : xiaozhu
+     * @date : 2020/9/11 0:56
+     */
+    public String getGaodeKey(){
+        try {
+            String gaodeKey = this.dbConfigMapper.selectValue("gaode_key");
+            if(gaodeKey == null || gaodeKey.equals("")){
+                return "c7aef2c066b99bd01c7c024d85671b9b";
+            }else {
+                return gaodeKey;
+            }
+        } catch (Exception e) {
+            logger.error("查询系统高德API用户自定义key失败", e);
+            return "c7aef2c066b99bd01c7c024d85671b9b";
+        }
+    }
+
     private Email getEmail(){
         try {
             Email email = new Email();

@@ -35,6 +35,12 @@
 <div class="page-container">
     <form class="form form-horizontal" id="form_setting">
         <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">设置教程：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <a href="https://doc.benzhu.xyz/web/#/2?page_id=18" target="_blank">教程链接</a>
+            </div>
+        </div>
+        <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">
                 <span class="c-red">*</span>
                 是否开启邮件：</label>

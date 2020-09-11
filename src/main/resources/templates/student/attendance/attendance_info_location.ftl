@@ -51,7 +51,7 @@
 <script type="text/javascript" src="/weui/js/city-picker.min.js"></script>
 <script type="text/javascript" src="/weui/js/jquery-form.min.js"></script>
 
-<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=c7aef2c066b99bd01c7c024d85671b9b"></script>
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=${gaodeKey!}"></script>
 <script>
     var lng = ${(attendance.longitude)!"109.211526"};
     var lat = ${(attendance.latitude)!"23.772286"};

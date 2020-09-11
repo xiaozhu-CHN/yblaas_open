@@ -24,4 +24,5 @@ public class DbConfig implements Serializable {
     private String leaveXyld; //学院领导审核天数
     private String leaveXgc; //	学工处审核天数
     private String attendanceAccuracy; //考勤精度
+    private String gaodeKey; //高德地图用户自定义key
 }

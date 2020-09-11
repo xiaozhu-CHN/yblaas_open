@@ -299,6 +299,7 @@ public class AdminServiceImpl implements AdminService {
             dbConfig.setLeaveXyld(dbConfigMapper.selectValue("leave_xyld"));
             dbConfig.setLeaveXgc(dbConfigMapper.selectValue("leave_xgc"));
             dbConfig.setAttendanceAccuracy(dbConfigMapper.selectValue("attendance_accuracy"));
+            dbConfig.setGaodeKey(dbConfigMapper.selectValue("gaode_key"));
             return dbConfig;
         } catch (Exception e) {
             logger.error("查询系统设置错误，错误信息："+e.toString());
@@ -329,6 +330,7 @@ public class AdminServiceImpl implements AdminService {
             dbConfigMapper.updateValue("leave_xyld", (dbConfig.getLeaveXyld()==null || dbConfig.getLeaveXyld().equals(""))?null:dbConfig.getLeaveXyld());
             dbConfigMapper.updateValue("leave_xgc", (dbConfig.getLeaveXgc()==null || dbConfig.getLeaveXgc().equals(""))?null:dbConfig.getLeaveXgc());
             dbConfigMapper.updateValue("attendance_accuracy", (dbConfig.getAttendanceAccuracy()==null || dbConfig.getAttendanceAccuracy().equals(""))?null:dbConfig.getAttendanceAccuracy());
+            dbConfigMapper.updateValue("gaode_key", (dbConfig.getGaodeKey()==null || dbConfig.getGaodeKey().equals(""))?null:dbConfig.getGaodeKey());
             return "success";
         } catch (Exception e) {
             logger.error("保存系统设置错误，错误信息："+e.toString());

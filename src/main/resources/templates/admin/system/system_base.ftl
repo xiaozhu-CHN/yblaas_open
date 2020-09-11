@@ -62,7 +62,7 @@
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">
-                <h4>易班设置：</h4></label>
+                <h4>易班设置：</h4><a href="https://doc.benzhu.xyz/web/#/2?page_id=17" target="_blank">（设置说明）</a></label>
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">
@@ -112,7 +112,7 @@
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">
-                <h4>请假设置：</h4></label>
+                <h4>请假设置：</h4><a href="https://doc.benzhu.xyz/web/#/2?page_id=19" target="_blank">（设置说明）</a></label>
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">
@@ -140,6 +140,17 @@
                 考勤精度：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" class="input-text" value="25" value="${(dbConfig.attendanceAccuracy)!}" name="attendanceAccuracy" >
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">
+                <h4>高德API设置：</h4><a href="https://doc.benzhu.xyz/web/#/page/edit/2/23" target="_blank">（设置说明）</a></label>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">
+                <a href="" target="_blank">自定义key：</a></label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" name="gaodeKey" placeholder="为空默认使用系统作者高德地图api的key" value="${(dbConfig.gaodeKey)!}" class="input-text">
             </div>
         </div>
         <div class="row cl">

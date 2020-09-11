@@ -110,6 +110,7 @@ INSERT INTO `dbconfig` VALUES ('yiban_appsecret', null);
 INSERT INTO `dbconfig` VALUES ('yiban_school', 'false');
 INSERT INTO `dbconfig` VALUES ('yiban_this', null);
 INSERT INTO `dbconfig` VALUES ('yiban_url', null);
+INSERT INTO `dbconfig` VALUES ('gaode_key', null);
 
 -- ----------------------------
 -- Table structure for `eclass`
