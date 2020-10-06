@@ -4,7 +4,7 @@
     <!-- 文件输出格式 -->
     <property name="PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] |%-5level  |%logger:%line |%msg%n" />
     <!-- pro文件路径 -->
-    <property name="PRO_FILE_PATH" value="D:/A/java/Prod/log" />
+    <property name="PRO_FILE_PATH" value="Prod/log" />
 
     <!-- 开发环境 -->
     <springProfile name="dev">
