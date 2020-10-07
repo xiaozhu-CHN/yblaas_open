@@ -12,7 +12,8 @@ VOLUME /tmp
 #定义了一个log的持久化存储
 VOLUME /log
 #将jar包添加到容器并更名为app.jar
-COPY yblaas_open_v1.0.jar app.jar
-# 运行jar包
+COPY yblaas_open_v1.1.jar app.jar
+# 更新jar包时间属性
 RUN bash -c 'touch /app.jar'
+# 运行jar包
 ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
