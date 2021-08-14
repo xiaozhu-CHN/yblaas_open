@@ -8,9 +8,9 @@
 
 # 软件手册
 部署需要安装mysql、jdk、Redis  
-文档地址：[中文文档](https://doc.benzhu.xyz/web/#/2?page_id=11 "中文文档")  
+文档地址：[中文文档](https://book.benzhu.xyz/yblaas_doc "中文文档")  
 Docker镜像：[Docker官网镜像地址](https://hub.docker.com/repository/docker/benzhu/yblaas_open "Docker官网镜像地址") [阿里镜像地址](https://cr.console.aliyun.com/repository/cn-hangzhou/benzhu/yblaas_open/details "阿里镜像地址")  
-Docker文档：[Docker文档](https://doc.benzhu.xyz/web/#/2?page_id=24 "Docker文档")
+Docker文档：[Docker文档](https://book.benzhu.xyz/yblaas_doc/%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85/Docker%E5%AE%89%E8%A3%85.html "Docker文档")
 
 
 # 特点
