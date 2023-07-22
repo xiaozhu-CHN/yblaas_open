@@ -23,14 +23,13 @@ Docker文档：[Docker文档](https://book.benzhu.xyz/yblaas_doc/%E4%B8%8B%E8%BD
 5. 接入易班，实现易班单点登陆。
 
 # 演示图
-![管理员登录界面](https://photo.benzhu.xyz/images/2020/07/09/QrGyxmqpWr4lMZct.png)
-![管理员首页](https://photo.benzhu.xyz/images/2020/07/09/yYd5WlWjzs5Wz1yh.png)
-![学生首页](https://photo.benzhu.xyz/images/2020/07/09/guilnx5CyWwWKkzp.png)
-![学生考勤](https://photo.benzhu.xyz/images/2020/07/09/lM6vVbBAU8SQfZ5f.png)
-![老师首页](https://photo.benzhu.xyz/images/2020/07/09/OWJjoySlQL7pMqoH.png)
-![老师假条](https://photo.benzhu.xyz/images/2020/07/09/2mKjoHoITTQ8wswV.png)
-![老师考勤](https://photo.benzhu.xyz/images/2020/07/09/l2BmVLMAOCifVjSR.png)
-![邮件测试](https://photo.benzhu.xyz/images/2020/07/09/KoF34MMffydMRwAR.png)
+![管理员首页](https://photo.benzhu.xyz/data/2023/07/22/xrxuwo.png)
+![学生首页](https://photo.benzhu.xyz/data/2023/07/22/xrxmvp.png)
+![学生考勤](https://photo.benzhu.xyz/data/2023/07/22/xrxxs7.png)
+![老师首页](https://photo.benzhu.xyz/data/2023/07/22/xrxzc7.png)
+![老师假条](https://photo.benzhu.xyz/data/2023/07/22/xrxrh5.png)
+![老师考勤](https://photo.benzhu.xyz/data/2023/07/22/xrxmrz.png)
+![邮件测试](https://photo.benzhu.xyz/data/2023/07/22/xrxqki.png)
 
 # 前端框架
 
